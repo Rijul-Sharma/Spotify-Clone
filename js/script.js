@@ -118,6 +118,7 @@ async function displayAlbums(){
 async function main(){
 
     //Get list of all songs
+    console.log(window.location.pathname);
     await getSongs('songs/Animal');
     playMusic(songs[0],true);
 
