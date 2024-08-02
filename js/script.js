@@ -120,7 +120,7 @@ async function main(){
 
     //Get list of all songs
     console.log(window.location.pathname);
-    await getSongs('../songs/ncs');
+    await getSongs('songs/ncs');
     playMusic(songs[0],true);
 
 
