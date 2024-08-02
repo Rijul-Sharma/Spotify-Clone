@@ -6,7 +6,7 @@ let currFolder;
 
 async function getSongs(folder){
     currFolder = folder;
-    let a = await fetch(`http://127.0.0.1:3000/Vid%2084/${currFolder}`)
+    let a = await fetch(`http://127.0.0.1:3000/Vid%2084/Spotify-Clone/${currFolder}`)
     let data = await a.text();
     // console.log(data);
     let div = document.createElement('div');
@@ -52,8 +52,8 @@ async function getSongs(folder){
 }
 
 function playMusic(track, pause=false){
-    // let audio = new Audio("/Vid%2084/songs/" + track);
-    currentSong.src = `/Vid%2084/${currFolder}/` + track
+    // let audio = new Audio("/Vid%2084/Spotify-Clone/songs/" + track);
+    currentSong.src = `/Vid%2084/Spotify-Clone/${currFolder}/` + track
     if(!pause){
         currentSong.play();
         playToggle.src = "images/pause.svg";
@@ -74,7 +74,7 @@ function formatTime(seconds) {
 
 
 async function displayAlbums(){
-    let a = await fetch(`http://127.0.0.1:3000/Vid%2084/songs`)
+    let a = await fetch(`http://127.0.0.1:3000/Vid%2084/Spotify-Clone/songs`)
     let data = await a.text();
     let div = document.createElement('div');
     div.innerHTML = data;
@@ -86,7 +86,7 @@ async function displayAlbums(){
         if(e.href.includes("/songs")){
             let folder = e.href.split('/').slice(-2)[0]
             //Get the metadata of the folder
-            let a = await fetch(`http://127.0.0.1:3000/Vid%2084/songs/${folder}/info.json`)
+            let a = await fetch(`http://127.0.0.1:3000/Vid%2084/Spotify-Clone/songs/${folder}/info.json`)
             let data = await a.json();
             
             //Populate the card container with the albums along with their metadata
