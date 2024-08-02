@@ -1,4 +1,5 @@
 console.log("Lets write some JS!")
+const baseUrl = window.location.origin + window.location.pathname.split('/')[1];
 
 let currentSong = new Audio();
 let songs;
@@ -6,7 +7,7 @@ let currFolder;
 
 async function getSongs(folder){
     currFolder = folder;
-    let a = await fetch(`${currFolder}`)
+    let a = await fetch(`${baseUrl}/${currFolder}`)
     let data = await a.text();
     // console.log(data);
     let div = document.createElement('div');
@@ -74,7 +75,7 @@ function formatTime(seconds) {
 
 
 async function displayAlbums(){
-    let a = await fetch(`songs`)
+    let a = await fetch(`${baseUrl}/songs`)
     let data = await a.text();
     let div = document.createElement('div');
     div.innerHTML = data;
