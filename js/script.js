@@ -118,7 +118,7 @@ async function displayAlbums(){
 async function main(){
 
     //Get list of all songs
-    await getSongs('songs/ANIMAL');
+    await getSongs('songs/Animal');
     playMusic(songs[0],true);
 
 
