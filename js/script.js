@@ -1,5 +1,5 @@
 console.log("Lets write some JS!")
-const baseUrl = window.location.origin + window.location.pathname.split('/')[1];
+const baseUrl = window.location.origin + '/' + window.location.pathname.split('/')[1] + '/';
 
 let currentSong = new Audio();
 let songs;
