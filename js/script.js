@@ -7,7 +7,7 @@ let currFolder;
 
 async function getSongs(folder){
     currFolder = folder;
-    let a = await fetch(`${baseUrl}/${currFolder}`)
+    let a = await fetch(`${baseUrl}${currFolder}`)
     let data = await a.text();
     // console.log(data);
     let div = document.createElement('div');
@@ -54,6 +54,10 @@ async function getSongs(folder){
 
 function playMusic(track, pause=false){
     // let audio = new Audio("songs/" + track);
+    if (!track) {
+        console.error('Track is undefined');
+        return;
+    }
     currentSong.src = `${currFolder}/` + track
     if(!pause){
         currentSong.play();
