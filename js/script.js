@@ -12,7 +12,7 @@ async function fetchGitHubContent(path) {
     const response = await fetch(url, {
       headers: {
         'Accept': 'application/vnd.github.v3+json',
-        'Authorization': `token ${token}`
+        'Authorization': `Bearer ${token}`
       }
     });
     if (!response.ok) {
