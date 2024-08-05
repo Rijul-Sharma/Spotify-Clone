@@ -54,7 +54,7 @@ async function getSongs(folder){
     //Attach an event listener to each songs
     Array.from(document.querySelector('.songList').getElementsByTagName('li')).forEach((e)=>{
         e.addEventListener("click",()=>{
-            playMusic(e.querySelector('.info').firstElementChild.innerHTML.replaceAll('amp;','')+'.mp3');
+            playMusic(e.querySelector('.info').firstElementChild.innerHTML + '.mp3');
         })
     })
     
@@ -176,7 +176,7 @@ async function main(){
 
 
     //Attach an event listener to prev button
-    getElementById('prev').addEventListener("click",()=>{
+    document.getElementById('prev').addEventListener("click",()=>{
         let index = songs.indexOf(currentSong.src.split("/").slice(-1)[0]);
         if(index-1 >= 0){
             playMusic(songs[index-1]);
@@ -186,7 +186,7 @@ async function main(){
 
 
     //Attach an event listener to prev button
-    getElementById('next').addEventListener("click",()=>{
+    document.getElementById('next').addEventListener("click",()=>{
         let index = songs.indexOf(currentSong.src.split("/").slice(-1)[0]);
         if(index+1 < songs.length){
             playMusic(songs[index+1]);
