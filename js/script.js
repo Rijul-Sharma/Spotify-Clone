@@ -6,12 +6,13 @@ let songs;
 let currFolder;
 
 async function fetchGitHubContent(path) {
+  const token = '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';
   const url = `https://api.github.com/repos/Rijul-Sharma/Spotify-Clone/contents/${path}`;
   try {
     const response = await fetch(url, {
       headers: {
         'Accept': 'application/vnd.github.v3+json',
-        'Authorization': Bearer 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
+        'Authorization': `Bearer ${token}`
       }
     });
     if (!response.ok) {
