@@ -8,11 +8,7 @@ let currFolder;
 async function fetchGitHubContent(path) {
   const url = `https://api.github.com/repos/Rijul-Sharma/Spotify-Clone/contents/${path}`;
   try {
-    const response = await fetch(url, {
-      headers: {
-        'Accept': 'application/vnd.github.v3+json'
-      }
-    });
+    const response = await fetch(url);
     if (!response.ok) {
       throw new Error(`GitHub API request failed: ${response.status}`);
     }
