@@ -5,22 +5,31 @@ let currentSong = new Audio();
 let songs;
 let currFolder;
 
+async function fetchGitHubContent(path) {
+  const url = `https://api.github.com/repos/Rijul-Sharma/Spotify-Clone/contents/${path}`;
+  try {
+    const response = await fetch(url, {
+      headers: {
+        'Accept': 'application/vnd.github.v3+json'
+      }
+    });
+    if (!response.ok) {
+      throw new Error(`GitHub API request failed: ${response.status}`);
+    }
+    return await response.json();
+  } catch (error) {
+    console.error('Error fetching content from GitHub:', error);
+  }
+}
+
 async function getSongs(folder){
     currFolder = folder;
-    let a = await fetch(`${baseUrl}${currFolder}`)
-    let data = await a.text();
-    // console.log(data);
-    let div = document.createElement('div');
-    div.innerHTML = data;
-    let as = div.getElementsByTagName('a');
-    // console.log(as); 
-    songs = [];
-    for (let index = 0; index < as.length; index++) {
-        const element = as[index];
-        if(element.href.endsWith('mp3')){
-            songs.push(element.href.split(`/${folder}/`)[1]);
-        }
-    }
+    let a = await fetchGitHubContent(currFolder);
+    songs = a.filter(function(item) {
+    return item.name.endsWith('.mp3');
+    }).map(function(item) {
+    return item.name;
+    });
     
     //Show all the songs in the playlist
     let songUL = document.querySelector('.songList').getElementsByTagName('ul')[0];
@@ -29,7 +38,7 @@ async function getSongs(folder){
         songUL.innerHTML = songUL.innerHTML + `<li>
                             <img class="invert" src="images/musicIcon.svg" alt=""> 
                             <div class="info">
-                                <div>${song.replaceAll("%20"," ").split('.mp3').slice(-2,1)[0]}</div>
+                                <div>${decodeURIComponent(song).split('.mp3')[0]}</div>
                             </div>
                             <div class="playnow">
                                 <span>Play Now</span>
@@ -58,13 +67,14 @@ function playMusic(track, pause=false){
         console.error('Track is undefined');
         return;
     }
-    currentSong.src = `${currFolder}/` + track
+    const trackUrl = await fetchGitHubContent(`${currFolder}/${track}`).then(file => file.download_url);
+    currentSong.src = trackUrl;
     if(!pause){
         currentSong.play();
         playToggle.src = "images/pause.svg";
     }
     // document.querySelector('.songinfo').innerHTML = decodeURI(track);
-    document.querySelector('.songinfo').innerHTML = track.replaceAll("%20"," ").split('.mp3').slice(-2,1)[0];
+    document.querySelector('.songinfo').innerHTML = decodeURIComponent(track).split('.mp3')[0];
     document.querySelector('.songtime').innerHTML = '0:00 / 0:00';
 }
 
@@ -79,27 +89,19 @@ function formatTime(seconds) {
 
 
 async function displayAlbums(){
-    let a = await fetch(`${baseUrl}/songs`)
-    let data = await a.text();
-    let div = document.createElement('div');
-    div.innerHTML = data;
-    let anchors = div.getElementsByTagName('a');
-    let array = Array.from(anchors);
+    let a = await fetchGitHubContent(songs);
+    let albums = a.filter(item => item.type === 'dir');
     
-    for (let index = 0; index < array.length; index++) {
-        const e = array[index];
-        if(e.href.includes("/songs")){
-            let folder = e.href.split('/').slice(-2)[0]
-            //Get the metadata of the folder
-            let a = await fetch(`songs/${folder}/info.json`)
-            let data = await a.json();
-            
-            //Populate the card container with the albums along with their metadata
+    for(album of albums){
+        let folder = album.name;
+        let albumMeta = await fetchGitHubContent(`songs/${folder}/info.json`).then(response => response);
+        let albumCover = await fetchGitHubContent(`songs/${folder}/cover.jpg`).then(response => response.url);
+        //Populate the card container with the albums along with their metadata
             let cardContainer = document.querySelector('.cardContainer');
             cardContainer.innerHTML += `<div data-folder="${folder}" class="card">
-                        <img src="songs/${folder}/cover.jpg" alt="img">
-                        <h2>${data.title}</h2>
-                        <p>${data.description}</p>
+                        <img src="albumCover" alt="img">
+                        <h2>${albumMeta.title}</h2>
+                        <p>${albumMeta.description}</p>
                         <div class="playIcon">
                             <svg data-encore-id="icon" role="img" aria-hidden="true" viewBox="0 0 26 26">
                                 <circle cx="13" cy="13" r="12" fill="#1abc54"></circle>
@@ -107,7 +109,6 @@ async function displayAlbums(){
                               </svg>
                         </div>
                     </div>`
-        }
     }
 
     //Load the playlist whenever card is clicked
@@ -134,14 +135,14 @@ async function main(){
 
 
     //Attach an event listener to play, next and prev buttons
-    playToggle.addEventListener("click", ()=>{
+    document.getElementById('playToggle').addEventListener("click", ()=>{
         if (currentSong.paused) {
             currentSong.play();
-            playToggle.src = "images/pause.svg";
+            document.getElementById('playToggle').src = "images/pause.svg";
         }
         else{
             currentSong.pause();
-            playToggle.src = "images/play.svg";
+            document.getElementById('playToggle').src = "images/play.svg";
         }
     })
 
@@ -178,7 +179,7 @@ async function main(){
     prev.addEventListener("click",()=>{
         let index = songs.indexOf(currentSong.src.split("/").slice(-1)[0]);
         if(index-1 >= 0){
-            playMusic(songs[index+-1]);
+            playMusic(songs[index-1]);
         }
     })
 
