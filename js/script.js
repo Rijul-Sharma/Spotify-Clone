@@ -11,7 +11,7 @@ async function fetchGitHubContent(path) {
     const response = await fetch(url, {
       headers: {
         'Accept': 'application/vnd.github.v3+json',
-        'Authorization': 'Bearer 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'
+        'Authorization': Bearer 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
       }
     });
     if (!response.ok) {
