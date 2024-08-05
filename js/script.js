@@ -8,7 +8,11 @@ let currFolder;
 async function fetchGitHubContent(path) {
   const url = `https://api.github.com/repos/Rijul-Sharma/Spotify-Clone/contents/${path}`;
   try {
-    const response = await fetch(url);
+    const response = await fetch(url, {
+      headers: {
+        'Accept': 'application/vnd.github.v3+json'
+      }
+    });
     if (!response.ok) {
       throw new Error(`GitHub API request failed: ${response.status}`);
     }
@@ -85,7 +89,7 @@ function formatTime(seconds) {
 
 
 async function displayAlbums(){
-    let a = await fetchGitHubContent(songs);
+    let a = await fetchGitHubContent("songs");
     let albums = a.filter(item => item.type === 'dir');
     
     for(album of albums){
