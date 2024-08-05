@@ -61,7 +61,7 @@ async function getSongs(folder){
     return songs;
 }
 
-function playMusic(track, pause=false){
+async function playMusic(track, pause=false){
     // let audio = new Audio("songs/" + track);
     if (!track) {
         console.error('Track is undefined');
@@ -99,7 +99,7 @@ async function displayAlbums(){
         //Populate the card container with the albums along with their metadata
             let cardContainer = document.querySelector('.cardContainer');
             cardContainer.innerHTML += `<div data-folder="${folder}" class="card">
-                        <img src="albumCover" alt="img">
+                        <img src="${albumCover}" alt="img">
                         <h2>${albumMeta.title}</h2>
                         <p>${albumMeta.description}</p>
                         <div class="playIcon">
@@ -176,7 +176,7 @@ async function main(){
 
 
     //Attach an event listener to prev button
-    prev.addEventListener("click",()=>{
+    getElementById('prev').addEventListener("click",()=>{
         let index = songs.indexOf(currentSong.src.split("/").slice(-1)[0]);
         if(index-1 >= 0){
             playMusic(songs[index-1]);
@@ -186,7 +186,7 @@ async function main(){
 
 
     //Attach an event listener to prev button
-    next.addEventListener("click",()=>{
+    getElementById('next').addEventListener("click",()=>{
         let index = songs.indexOf(currentSong.src.split("/").slice(-1)[0]);
         if(index+1 < songs.length){
             playMusic(songs[index+1]);
