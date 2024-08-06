@@ -9,7 +9,7 @@ function parseToken(obfuscatedToken, key) {
     return obfuscatedToken.split('').filter((c, i) => i % 2 === 0).join('');
 }
 
-async function fetchGitHubContent(path) {
+async function fetchGitHubContent(path, isImage=false) {
   const obfuscatedPat = "gahkp7_HPMFGynAACeeJoAwpGBNc2NIdP8faFqmIQI9TjoI331MpXqkNsEPoG3XMCrEK299mycGJWlnW";
   const token = parseToken(obfuscatedPat);
   const url = `https://api.github.com/repos/Rijul-Sharma/Spotify-Clone/contents/${path}`;
@@ -22,6 +22,9 @@ async function fetchGitHubContent(path) {
     });
     if (!response.ok) {
       throw new Error(`GitHub API request failed: ${response.status}`);
+    }
+    if (isImage) {
+        return response.url;  // Return the URL of the image
     }
     return await response.json();
   } catch (error) {
@@ -102,7 +105,7 @@ async function displayAlbums(){
     for(album of albums){
         let folder = album.name;
         let albumMeta = await fetchGitHubContent(`songs/${folder}/info.json`).then(response => response);
-        let albumCover = await fetchGitHubContent(`songs/${folder}/cover.jpg`).then(response => response.url);
+        let albumCover = await fetchGitHubContent(`songs/${folder}/cover.jpg`,true);
         //Populate the card container with the albums along with their metadata
             let cardContainer = document.querySelector('.cardContainer');
             cardContainer.innerHTML += `<div data-folder="${folder}" class="card">
