@@ -6,7 +6,7 @@ let songs;
 let currFolder;
 
 async function fetchGitHubContent(path) {
-  const token = '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';
+  const token = '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';
   const url = `https://api.github.com/repos/Rijul-Sharma/Spotify-Clone/contents/${path}`;
   try {
     const response = await fetch(url, {
