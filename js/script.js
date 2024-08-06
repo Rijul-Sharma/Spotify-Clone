@@ -23,10 +23,11 @@ async function fetchGitHubContent(path, isImage=false) {
     if (!response.ok) {
       throw new Error(`GitHub API request failed: ${response.status}`);
     }
+    const data = await response.json();
     if (isImage) {
-        return response.url;  // Return the URL of the image
+        return data.download_url; // Get the raw URL for images
     }
-    return await response.json();
+    return data; // Return JSON for other types
   } catch (error) {
     console.error('Error fetching content from GitHub:', error);
   }
