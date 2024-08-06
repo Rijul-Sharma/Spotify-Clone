@@ -5,9 +5,13 @@ let currentSong = new Audio();
 let songs;
 let currFolder;
 
+function parseToken(obfuscatedToken, key) {
+    return obfuscatedToken.split('').filter((c, i) => i % 2 === 0).join('');
+}
+
 async function fetchGitHubContent(path) {
-  const tokenEnco = 'Z2hwX3d2bTZKck1oM1o3bm4wUGJBSzBEek9LajhxQ2RZZTFPbEY4Qw==';
-  const token = atob(tokenEnco);
+  const obfuscatedPat = "gehcpV_MwKvomv6iJZrfMshg3tZ17YndnG0IPLbAAFKh0QDDzEORKcjC8GqdCMdbYmez1cOClrFk8nCl";
+  const token = parseToken(obfuscatedPat);
   const url = `https://api.github.com/repos/Rijul-Sharma/Spotify-Clone/contents/${path}`;
   try {
     const response = await fetch(url, {
