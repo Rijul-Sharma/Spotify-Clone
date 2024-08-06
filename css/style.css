@@ -434,15 +434,3 @@
     }
 }
 
-
-@media (max-width:435px){
-
-    .card {
-        width: 55vw;
-    }
-    .card img:nth-child(1) {
-        width: 80%;
-        position: relative;
-        left: 10%;
-    }
-}
