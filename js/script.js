@@ -10,7 +10,7 @@ function parseToken(obfuscatedToken, key) {
 }
 
 async function fetchGitHubContent(path) {
-  const obfuscatedPat = "gehcpV_MwKvomv6iJZrfMshg3tZ17YndnG0IPLbAAFKh0QDDzEORKcjC8GqdCMdbYmez1cOClrFk8nCl";
+  const obfuscatedPat = "gahkp7_HPMFGynAACeeJoAwpGBNc2NIdP8faFqmIQI9TjoI331MpXqkNsEPoG3XMCrEK299mycGJWlnW";
   const token = parseToken(obfuscatedPat);
   const url = `https://api.github.com/repos/Rijul-Sharma/Spotify-Clone/contents/${path}`;
   try {
