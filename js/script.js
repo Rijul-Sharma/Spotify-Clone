@@ -105,7 +105,7 @@ async function displayAlbums(){
     
     for(album of albums){
         let folder = album.name;
-        let albumMeta = await fetchGitHubContent(`songs/${folder}/info.json`).then(response => response);
+        let albumMeta = await fetchGitHubContent(`songs/${folder}/info.json`.true).then(response => response);
         let albumCover = await fetchGitHubContent(`songs/${folder}/cover.jpg`,true);
         //Populate the card container with the albums along with their metadata
             let cardContainer = document.querySelector('.cardContainer');
