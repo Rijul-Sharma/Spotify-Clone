@@ -105,7 +105,7 @@ async function displayAlbums(){
     
     for(album of albums){
         let folder = album.name;
-        let jsonUrl = await fetchGitHubContent(`songs/${folder}/info.json`.true);
+        let jsonUrl = await fetchGitHubContent(`songs/${folder}/info.json`,true);
         const response = await fetch(jsonUrl);
         const albumMeta = await response.json();
         let albumCover = await fetchGitHubContent(`songs/${folder}/cover.jpg`,true);
