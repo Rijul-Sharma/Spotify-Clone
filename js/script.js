@@ -190,7 +190,7 @@ async function main(){
 
     //Attach an event listener to prev button
     document.getElementById('prev').addEventListener("click",()=>{
-        let index = songs.indexOf(currentSong.src.split("/").slice(-1)[0]);
+        let index = songs.indexOf(decodeURI(currentSong.src.split("/").slice(-1)[0]));
         if(index-1 >= 0){
             playMusic(songs[index-1]);
         }
@@ -198,9 +198,10 @@ async function main(){
 
 
 
-    //Attach an event listener to prev button
+    //Attach an event listener to next button
     document.getElementById('next').addEventListener("click",()=>{
-        let index = songs.indexOf(currentSong.src.split("/").slice(-1)[0]);
+        let index = songs.indexOf(decodeURI(currentSong.src.split("/").slice(-1)[0]));
+        console.log
         if(index+1 < songs.length){
             playMusic(songs[index+1]);
         }
